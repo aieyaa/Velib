@@ -1,0 +1,27 @@
+<header th:fragment="headerContent">
+    <!-- Titre principal -->
+    <h1 class="bg-light text-center p-5">Bienvenue <span th:text="${ville ?: 'Ville'}">Ville</span> !</h1>
+
+    <!-- Barre de navigation -->
+    <div class="d-flex align-items-start p-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Menu de Navigation</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/arrondissement">Arrondissement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/departement">Département</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/mobile">Mobile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
