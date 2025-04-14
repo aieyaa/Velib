@@ -1,56 +1,66 @@
+// Charger les données JSON au chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+    loadJsonData(); // Charger et afficher les données JSON
+});
 
-document.getElementById("fetchButton").addEventListener("click", () => {
-    fetch('/json/velib-disponibilite-en-temps-reel.json') // Assurez-vous que le chemin est correct
+
+
+// Charger le fichier JSON et peupler le tableau principal
+function loadJsonData() {
+    fetch('/json/velib-disponibilite-en-temps-reel.json') // Chemin vers le fichier JSON
         .then(response => {
             if (!response.ok) {
-                throw new Error("Erreur lors de la récupération du fichier JSON");
+                throw new Error('Erreur lors du chargement du fichier JSON');
             }
             return response.json();
         })
         .then(data => {
-            console.log("Données JSON récupérées :", data); // Log pour débogage
-
-            // Remplir la liste des arrondissements
-            const list = document.getElementById("arrondissementList");
-            list.innerHTML = "";
-            data.forEach(item => {
-                const li = document.createElement("li");
-                li.className = "list-group-item";
-                li.textContent = item.arrondissement;
-                list.appendChild(li);
-            });
-
-            // Remplir le tableau avec ID et arrondissement
-            const tableBody = document.getElementById("jsonTableBody");
-            tableBody.innerHTML = ""; // Vider le tableau existant
-            data.forEach(item => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${item.stationcode}</td>
-                    <td>${item.arrondissement}</td>
-                `;
-                tableBody.appendChild(row);
-            });
+            console.log('Données JSON chargées avec succès :', data);
+            populateTable(data); // Appeler la fonction pour remplir le tableau principal
         })
-        .catch(error => {
-            console.error("Erreur :", error);
-        });
-});
+        .catch(error => console.error('Erreur JSON :', error));
+}
 
+// Fonction pour remplir le tableau principal
+function populateTable(data) {
+    const tableBody = document.querySelector('#stationTable tbody'); // Sélectionner le tbody du tableau principal
+    tableBody.innerHTML = ''; // Réinitialiser le contenu du tableau
 
-			//Fonction pour le tableau des détails
-		    function showDetails(row) {
-		        const stationCode = row.getAttribute("data-stationcode");
-		        const name = row.getAttribute("data-name");
-		        const ville = row.getAttribute("data-ville");
-		        const commune = row.getAttribute("data-commune");
+    data.forEach(item => {
+        const row = document.createElement('tr'); // Créer une ligne pour chaque station
+        row.setAttribute('data-stationcode', item.stationcode);
+        row.setAttribute('data-name', item.name);
+        row.setAttribute('data-ville', item.nom_arrondissement_communes);
+        row.setAttribute('data-commune', item.code_insee_commune);
 
-		        console.log("DEBUG >>>", stationCode, name, ville, commune); // debug console
+        // Remplir la ligne avec les données JSON
+        row.innerHTML = `
+            <td>${item.stationcode}</td>
+            <td>${item.name}</td>
+            <td>${item.nom_arrondissement_communes}</td>
+            <td>${item.code_insee_commune}</td>
+        `;
+        row.addEventListener('click', () => showDetails(row)); // Ajouter un événement de clic pour afficher les détails
+        tableBody.appendChild(row); // Ajouter la ligne au tableau
+    });
+}
 
-		        document.getElementById("detailsStationCode").textContent = stationCode;
-		        document.getElementById("detailsName").textContent = name;
-		        document.getElementById("detailsVille").textContent = ville;
-		        document.getElementById("detailsCommune").textContent = commune;
+// Fonction pour afficher les détails dans le tableau au-dessus
+function showDetails(row) {
+    const stationCode = row.dataset.stationcode;
+    const name = row.dataset.name;
+    const ville = row.dataset.ville;
+    const commune = row.dataset.commune;
 
-		        document.getElementById("stationDetailsTable").style.display = "table";
-		    }
+    console.log("Station sélectionnée :", { stationCode, name, ville, commune });
+
+    // Mettre à jour le tableau des détails
+    document.getElementById("detailsStationCode").textContent = stationCode || "Non disponible";
+    document.getElementById("detailsName").textContent = name || "Non disponible";
+    document.getElementById("detailsVille").textContent = ville || "Non disponible";
+    document.getElementById("detailsCommune").textContent = commune || "Non disponible";
+
+    // Afficher le tableau des détails
+    document.getElementById("stationDetailsTable").style.display = "table";
+}
+
