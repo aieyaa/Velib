@@ -15,10 +15,64 @@
 	    <!-- Contenu spécifique à la page -->
 	    <div id="pageContent" class="flex-grow-1 p-3">
 	        <p>Bienvenue sur la page des Départements !</p>
-	    </div>
+	    
+		
+			<div class="container">
+			    <!-- Boutons des départements -->
+			    <div class="mb-4">
+			        <button type="button" class="btn" data-departement="92">92</button>
+			        <button type="button" class="btn" data-departement="93">93</button>
+			        <button type="button" class="btn" data-departement="94">94</button>
+			        <button type="button" class="btn" data-departement="95">95</button>
+			    </div>
+				
+				<!--Message par défaut-->
+				<div id="message" style="text-align: center; font-style: italic; color: gray;">
+				        Cliquez sur un département pour afficher les stations !
+				    </div>
+
+			    <!-- Tableau pour afficher les détails de la station sélectionnée -->
+			    <table id="tableau-detail-station" class="table table-bordered" style="display: none;"> <!-- Masqué par défaut puis afficher-->
+			        <thead>
+			            <tr>
+			                <th>Code Station</th>
+			                <th>Nom de Station</th>
+			                <th>Ville</th>
+			                <th>Commune</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <!-- Les détails seront insérés ici via JavaScript -->
+			        </tbody>
+			    </table>
+
+			    <!--
+					Tableau principal 
+					Liste des stations dans une liste déroulante 
+				-->
+				
+			    <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+			        <table id="tableau-stations" class="table table-striped">
+			            <thead>
+			                <tr>
+			                    <th>Code Station</th>
+			                    <th>Nom de Station</th>
+			                    <th>Ville</th>
+			                    <th>Commune</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <!-- Les données seront insérées ici via JavaScript -->
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+
+		
+		
 	</div>
 
 
-    <script src="/js/projey.js"></script>
+    <script src="/js/dep.js"></script>
 </body>
 </html>
