@@ -24,50 +24,58 @@ public class VelibController {
 	@GetMapping("/")
 	public String showVelibPage(Model model) { 
 		model.addAttribute("ville", "Paris"); // Attribut dynamique 
-		return "Velib"; // Spring va chercher Velib.html dans templates/ 
+		return "Velib"; // Velib.html 
 		} 
 	
-	// Ne sert pratiquement a rien 
-	// Thymleaf ne reconnais pas les données récupérées du tableau principal
-    @GetMapping("/arrondissement")
-    public String arrondissement(Model model) {
-        model.addAttribute("title", "Arrondissement");
-    	model.addAttribute("ville", "Paris");
+	@GetMapping("/arrondissement")
+	public String arrondissement(Model model) throws URISyntaxException {
+	    model.addAttribute("ville", "Paris");
+	    return "Arrondissement"; //Arrondissement.html
+	}
+	
+	/*
+	 * Filtrage des stations avec leur arrondissements 
+	 * arrondissement = indice premier du stationcode
+	 * PathVariable = le chemin 
+	 * */
+	@GetMapping("/arrondissement/{arrondissement}")
+	@ResponseBody
+	public List<Map<String, Object>> getStationsByArrondissement(@PathVariable("arrondissement") String arrondissement) {
+	    try {
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        ClassLoader classLoader = getClass().getClassLoader();
+	        URL resource = classLoader.getResource("json/velib-disponibilite-en-temps-reel.json");
 
-        try {
-            // Charger le fichier JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            ClassLoader classLoader = getClass().getClassLoader();
-            URL resource = classLoader.getResource("json/velib-disponibilite-en-temps-reel.json");
+	        if (resource == null) {
+	            throw new IllegalArgumentException("Le fichier JSON est introuvable");
+	        }
 
-            if (resource == null) {
-                throw new IllegalArgumentException("Le fichier JSON est introuvable");
-            }
+	        File jsonFile = new File(resource.toURI());
+	        List<Map<String, Object>> stations = objectMapper.readValue(jsonFile, new TypeReference<>() {});
 
-            File jsonFile = new File(resource.toURI());
-            List<Map<String, Object>> arrondissements = objectMapper.readValue(
-                jsonFile,
-                new TypeReference<>() {} // Convertir en liste de Map
-            );
+	        // Filtrer les stations par arrondissement avec le stationcode
+	        List<Map<String, Object>> filteredStations = stations.stream()
+	            .filter(station -> station.get("stationcode") != null &&
+                station.get("stationcode").toString().startsWith(arrondissement))
 
-            model.addAttribute("arrondissements", arrondissements);
-//            System.out.println(arrondissements);
+	            .collect(Collectors.toList());
 
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-            model.addAttribute("error", "Impossible de charger les données Velib");
-        }
 
-        return "Arrondissement";
-    }
+	        return filteredStations;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return Collections.emptyList();
+	    }
+	}
+
+
     
     @GetMapping("/departement")
     public String departementPage(Model model) {
         model.addAttribute("ville", "Paris");
         return "Departement"; // Departement.html" 
     }
-
-
     
     /*
      * Filtrage et affichage des stations

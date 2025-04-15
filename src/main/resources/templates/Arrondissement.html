@@ -1,54 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${title}">Velib Projet</title>
+    <title>Velib Projet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="p-5">
+    <!-- Inclure le fragment de navigation -->
     <div class="d-flex">
+        <!-- Barre de navigation -->
         <div class="p-3" style="width: 18rem;">
             <div th:insert="fragments/header :: headerContent"></div>
         </div>
 
+        <!-- Contenu spécifique à la page -->
         <div id="pageContent" class="flex-grow-1 p-3">
-            <h1 class="text-center mb-4" th:text="${title}">Titre par défaut</h1>
+			<p>Bienvenue sur la page des Arrondissements !</p>
+            
+            <div class="container">
+                <!-- Boutons pour sélectionner les arrondissements -->
+                <div class="mb-4">
+                    <button type="button" class="btn" data-arrondissement="1">1</button>
+                    <button type="button" class="btn" data-arrondissement="2">2</button>
+                    <button type="button" class="btn" data-arrondissement="3">3</button>
+                    <button type="button" class="btn" data-arrondissement="4">4</button>
+                    <button type="button" class="btn" data-arrondissement="5">5</button>
+                    <button type="button" class="btn" data-arrondissement="6">6</button>
+                    <button type="button" class="btn" data-arrondissement="7">7</button>
+                    <button type="button" class="btn" data-arrondissement="8">8</button>
+                    <button type="button" class="btn" data-arrondissement="9">9</button>
+                    <button type="button" class="btn" data-arrondissement="10">10</button>
+                    <button type="button" class="btn" data-arrondissement="11">11</button>
+                    <button type="button" class="btn" data-arrondissement="12">12</button>
+                    <button type="button" class="btn" data-arrondissement="13">13</button>
+                    <button type="button" class="btn" data-arrondissement="14">14</button>
+                    <button type="button" class="btn" data-arrondissement="15">15</button>
+                    <button type="button" class="btn" data-arrondissement="16">16</button>
+                    <button type="button" class="btn" data-arrondissement="17">17</button>
+                    <button type="button" class="btn" data-arrondissement="18">18</button>
+                    <button type="button" class="btn" data-arrondissement="19">19</button>
+                    <button type="button" class="btn" data-arrondissement="20">20</button>
+                </div>
+                
+                <!-- Message par défaut -->
+                <div id="message" style="text-align: center; font-style: italic; color: gray;">
+                    Cliquez sur un arrondissement pour afficher les stations !
+                </div>
 
-            <!-- Tableau des détails (au-dessus) -->
-            <table id="stationDetailsTable" class="table table-bordered" style="display:none;">
-                <thead class="table-dark">
-                    <tr>
-                        <th>StationCode</th>
-                        <th>Nom de Station</th>
-                        <th>Ville</th>
-                        <th>Commune</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="detailsStationCode"></td>
-                        <td id="detailsName"></td>
-                        <td id="detailsVille"></td>
-                        <td id="detailsCommune"></td>
-                    </tr>
-                </tbody>
-            </table>
+                <!-- Tableau pour afficher les détails de la station sélectionnée -->
+                <table id="tableau-detail-station" class="table table-bordered" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Code Station</th>
+                            <th>Nom de Station</th>
+                            <th>Ville</th>
+                            <th>Commune</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les détails seront insérés ici via JavaScript -->
+                    </tbody>
+                </table>
 
-            <!-- Tableau principal -->
-			<table id="stationTable" class="table table-bordered table-striped">
-			    <thead>
-			        <tr>
-			            <th>StationCode</th>
-			            <th>Nom de Station</th>
-			            <th>Ville</th>
-			            <th>Commune</th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			        <!-- Les lignes seront générées ici par le JavaScript 
-					Renseigner directement par le javascript -->
-			    </tbody>
-			</table>
-
+                <!-- Tableau principal -->
+                <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                    <table id="tableau-stations" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code Station</th>
+                                <th>Nom de Station</th>
+                                <th>Ville</th>
+                                <th>Commune</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Les données seront insérées ici via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

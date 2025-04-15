@@ -1,3 +1,5 @@
+// Javascript pour la fiche Mobile
+
 document.addEventListener("DOMContentLoaded", function () {
     // Récupérer le tableau des stations et celui des détails
     const stationTable = document.getElementById("stationTable");
