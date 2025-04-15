@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,36 @@ public class VelibController {
         }
     }
 
+
+    @GetMapping("/mobile")
+    public String Mobile(Model model) throws IOException {
+        // Charger les données JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("json/velib-disponibilite-en-temps-reel.json");
+
+        if (resource == null) {
+            throw new IllegalArgumentException("Le fichier JSON est introuvable");
+        }
+
+        // Lire les données JSON
+        List<Map<String, Object>> stations = objectMapper.readValue(
+            resource,
+            new TypeReference<List<Map<String, Object>>>() {}
+        );
+
+        // Filtrer les stations avec un stationCode à 4 chiffres
+        List<Map<String, Object>> filteredStations = stations.stream()
+            .filter(station -> station.get("stationcode") instanceof String 
+                && ((String) station.get("stationcode")).matches("\\d{4}"))
+            .collect(Collectors.toList());
+
+        // Ajouter les stations filtrées au modèle
+        model.addAttribute("stations", filteredStations);
+        model.addAttribute("ville", "Paris");
+
+        return "Mobile"; // Retourne la vue "mobile.html"
+    }
 
 
 
