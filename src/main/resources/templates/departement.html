@@ -31,25 +31,38 @@
 				        Cliquez sur un département pour afficher les stations !
 				    </div>
 
-			    <!-- Tableau pour afficher les détails de la station sélectionnée -->
-			    <table id="tableau-detail-station" class="table table-bordered" style="display: none;"> <!-- Masqué par défaut puis afficher-->
-			        <thead>
-			            <tr>
-			                <th>Code Station</th>
-			                <th>Nom de Station</th>
-			                <th>Ville</th>
-			                <th>Commune</th>
-			            </tr>
-			        </thead>
-			        <tbody>
-			            <!-- Les détails seront insérés ici via JavaScript -->
-			        </tbody>
-			    </table>
+			    <!-- Cadre pour afficher les détails de la station sélectionnée -->
+				<div id="cadre-detail-station" class="card p-3" style="margin: 0 auto; border: 1px solid #ddd; background-color: #f9f9f9; text-align: center; display: none; width: 100%;">
+				    <button type="button" class="btn-close" aria-label="Close" style="position: absolute; top: 10px; right: 10px;" onclick="fermerCadre()"></button>
+				    <h4 class="card-title">Détails de la Station</h4>
+				    <div class="row">
+				        <!-- Colonne de gauche -->
+				        <div class="col-md-6 text-start">
+				            <ul class="list-group list-group-flush">
+				                <li id="station-code" class="list-group-item"><strong>Code Station:</strong> <span></span></li>
+				                <li id="station-name" class="list-group-item"><strong>Nom de Station:</strong> <span></span></li>
+				                <li id="station-city" class="list-group-item"><strong>Ville:</strong> <span></span></li>
+				                <li id="station-commune" class="list-group-item"><strong>Commune:</strong> <span></span></li>
+				                <li id="is-renting" class="list-group-item"><strong>CB :</strong> <span></span></li>
+				            </ul>
+				        </div>
+				        <!-- Colonne de droite -->
+				        <div class="col-md-6 text-start">
+				            <ul class="list-group list-group-flush">
+				                <li id="num-bikes-available" class="list-group-item"><strong>Vélos Disponibles:</strong> <span></span></li>
+				                <li id="is-installed" class="list-group-item"><strong>Station Disponible:</strong> <span></span></li>
+				                <li id="num-docks-available" class="list-group-item"><strong>Attaches Disponibles:</strong> <span></span></li>
+				                <li id="is-returning" class="list-group-item"><strong>Retour Vélos:</strong> <span></span></li>
+				            </ul>
+				        </div>
+				    </div>
+				</div>
 
-			    <!--
-					Tableau principal 
-					Liste des stations dans une liste déroulante 
-				-->
+
+				
+
+			    <!--Tableau principal 
+					Liste des stations dans une liste déroulante-->
 				
 			    <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
 			        <table id="tableau-stations" class="table table-striped">

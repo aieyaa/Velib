@@ -45,18 +45,21 @@ document.querySelectorAll(".btn").forEach(button => {
 
 // Fonction pour afficher les détails d'une station dans le tableau supérieur
 function afficherDetailsStation(station) {
-    const tableauDetail = document.querySelector("#tableau-detail-station");
-    tableauDetail.style.display = "table"; // Rendre le tableau visible
+    const cadreDetail = document.querySelector("#cadre-detail-station");
+    cadreDetail.style.display = "block"; // Rendre le cadre visible
 
-    const tbody = tableauDetail.querySelector("tbody");
-    tbody.innerHTML = ""; // Vider les anciennes données
+		document.querySelector("#station-code span").textContent = station.stationcode;
+		document.querySelector("#station-name span").textContent = station.name;
+	    document.querySelector("#station-city span").textContent = station.nom_arrondissement_communes;
+	    document.querySelector("#station-commune span").textContent = station.code_insee_commune;
+	    document.querySelector("#is-renting span").textContent = station.is_renting ? "Oui" : "Non";
+	    document.querySelector("#num-bikes-available span").textContent = station.numbikesavailable;
+	    document.querySelector("#is-installed span").textContent = station.is_installed ? "Oui" : "Non";
+	    document.querySelector("#num-docks-available span").textContent = station.numdocksavailable;
+	    document.querySelector("#is-returning span").textContent = station.is_returning ? "Oui" : "Non";
+}
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${station.stationcode}</td>
-        <td>${station.name}</td>
-        <td>${station.nom_arrondissement_communes}</td>
-        <td>${station.code_insee_commune}</td>
-    `;
-    tbody.appendChild(row);
+function fermerCadre() {
+    const cadreDetail = document.querySelector("#cadre-detail-station");
+    cadreDetail.style.display = "none"; // Masquer le cadre
 }
